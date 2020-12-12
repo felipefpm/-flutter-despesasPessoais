@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_project/models/transections.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(ExpensesApp());
@@ -15,6 +16,9 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final titleController = TextEditingController();
+  final valueController = TextEditingController();
+
   final _transctions = [
     Transactions(
       id: 't1',
@@ -37,7 +41,6 @@ class MyHomePage extends StatelessWidget {
         title: Text('Despesas Pessoais'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
@@ -85,7 +88,7 @@ class MyHomePage extends StatelessWidget {
                           height: 8,
                         ),
                         Text(
-                          tr.date.toString(),
+                          DateFormat('d MMM y').format(tr.date),
                           style: TextStyle(
                             color: Colors.grey,
                           ),
@@ -97,6 +100,37 @@ class MyHomePage extends StatelessWidget {
               );
             }).toList(),
           ]),
+          Card(
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: titleController,
+                    decoration: InputDecoration(labelText: 'Titulo'),
+                  ),
+                  TextField(
+                    controller: valueController,
+                    decoration: InputDecoration(labelText: 'Valor R\$'),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          print(titleController.text);
+                          print(valueController.text);
+                        },
+                        child: Text('Nova Transação'),
+                        textColor: Colors.purple,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
